@@ -35,7 +35,7 @@ export async function POST(request) {
     // Multiple files are sent with key "images"
     const files = formData.getAll("images")
       .filter(Boolean)
-      .filter((f) => typeof f !== "string"); // guard in case of empty slots
+      .filter((f) => typeof f !== "string"); 
 
     if (!files.length) {
       return NextResponse.json({ success: false, message: "no files uploaded" }, { status: 400 });

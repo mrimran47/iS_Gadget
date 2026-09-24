@@ -18,10 +18,10 @@ export const GET = async (req) => {
 
     // 1. Check if DB actually has products
     const allProducts = await Product.find({});
-    console.log("📦 Total Products in DB:", allProducts.length);
+    console.log("Total Products in DB:", allProducts.length);
 
     // 2. Print actual stored names
-    console.log("📝 Example Product Names:");
+    console.log("Example Product Names:");
     allProducts.slice(0, 5).forEach(p => console.log("  -", p.name));
 
     // 3. Now build the regex search
@@ -33,18 +33,18 @@ export const GET = async (req) => {
       ]
     };
 
-    console.log("🔎 Search Criteria:", searchCriteria);
+    console.log("Search Criteria:", searchCriteria);
 
     // 4. Perform search
     const foundProducts = await Product.find(searchCriteria);
 
-    console.log("✅ Products Found:", foundProducts.length);
+    console.log("Products Found:", foundProducts.length);
     console.log("==============================\n");
 
     return NextResponse.json(foundProducts, { status: 200 });
 
   } catch (err) {
-    console.error("❌ SEARCH API ERROR:", err);
+    console.error("SEARCH API ERROR:", err);
     return NextResponse.json({ error: "Server Error" }, { status: 500 });
   }
 };

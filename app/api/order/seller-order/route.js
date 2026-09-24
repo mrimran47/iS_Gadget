@@ -19,13 +19,11 @@ export async function GET(request) {
 
        
         
-        // 2. Fetch all orders (or filter by seller-specific logic if implemented)
-        // For simplicity, we fetch ALL orders for the seller dashboard for now.
-        // We populate both the product details and the shipping address.
-        const orders = await Order.find({}) // Fetches all orders
+        
+        const orders = await Order.find({}) 
             .populate('items.product') 
             .populate('address') 
-            .sort({ date: -1 }); // Newest first
+            .sort({ date: -1 }); 
 
         // 3. Return the list of orders
         return NextResponse.json({ 

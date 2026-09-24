@@ -1,52 +1,52 @@
 import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
 
-// --- Configuration from .env.local ---
-// These variables must be configured in your .env.local file.
-const EMAIL_USER = process.env.EMAIL_USER; 
-const EMAIL_PASS = process.env.EMAIL_PASS; 
-const TARGET_EMAIL = process.env.TARGET_EMAIL; 
 
-// Create a transporter object
+
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
+const TARGET_EMAIL = process.env.TARGET_EMAIL;
+
+
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // Or 'outlook', 'hotmail', etc.
+    service: 'gmail',
     auth: {
         user: EMAIL_USER,
-        pass: EMAIL_PASS, // This MUST be an App Password/Token for security
+        pass: EMAIL_PASS,
     },
 });
 
-// Use the named export 'POST' for handling POST requests (App Router convention)
+
 export async function POST(request) {
-    
-    // 1. Parse the JSON body from the Request object
+
+
     const body = await request.json();
     const { name, email, subject, message } = body;
 
-    // 2. Basic validation check
+
     if (!name || !email || !message) {
-        // Return a JSON response with a 400 status code
+
         return NextResponse.json(
-            { message: 'Missing required fields: name, email, and message.' }, 
+            { message: 'Missing required fields: name, email, and message.' },
             { status: 400 }
         );
     }
 
-    // 3. Ensure essential credentials are set
+
     if (!EMAIL_USER || !EMAIL_PASS || !TARGET_EMAIL) {
         console.error("Email configuration missing! Check EMAIL_USER, EMAIL_PASS, and TARGET_EMAIL in .env.local");
         return NextResponse.json(
-            { message: 'Server configuration error: Email credentials missing.' }, 
+            { message: 'Server configuration error: Email credentials missing.' },
             { status: 500 }
         );
     }
 
     try {
-        // Construct the email content
+
         const mailData = {
-            from: `"${name} (via Contact Form)" <${EMAIL_USER}>`, 
-            to: TARGET_EMAIL, // The address that receives the form submission
-            replyTo: email, // Set the reply-to address to the user's email
+            from: `"${name} (via Contact Form)" <${EMAIL_USER}>`,
+            to: TARGET_EMAIL,
+            replyTo: email,
             subject: `Contact Form: ${subject || 'No Subject'} (From ${name})`,
             text: `
                 Name: ${name}
@@ -79,13 +79,12 @@ export async function POST(request) {
         console.error('Error sending email:', error);
         // Failure response
         return NextResponse.json(
-            { 
+            {
                 message: `Failed to send email. Check your server logs and email provider settings.`,
                 error: error.message
-            }, 
+            },
             { status: 500 }
         );
     }
 }
 
-// Optionally, export other methods if needed (e.g., export async function GET(request) {})

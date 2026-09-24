@@ -1,11 +1,9 @@
-// components/SearchInput.jsx
-
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { assets } from "@/assets/assets"; // Adjust path as needed
+import { assets } from "@/assets/assets"; 
 
 const SearchInput = () => {
   const router = useRouter();
@@ -17,7 +15,7 @@ const SearchInput = () => {
     if (query.trim() !== "") {
       
       router.push(`/search/${query}`);
-      setQuery(""); // Clear the input after searching
+      setQuery(""); 
     }
   };
 
@@ -42,7 +40,7 @@ const SearchInput = () => {
         type="submit" 
         className="absolute right-0 top-0 h-full px-2 rounded-r-full hover:opacity-80 transition duration-150"
       >
-        {/* Using your existing search icon style */}
+        
         <Image 
           className="w-4 h-4 " 
           src={assets.search_icon} 

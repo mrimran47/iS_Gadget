@@ -1,5 +1,5 @@
 import connectDB from "@/config/db";
-import Order from "@/models/Order"; // The model you just created
+import Order from "@/models/Order"; 
 import User from "@/models/user";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -24,23 +24,21 @@ export async function POST(request) {
 
         // 1. Create the new order document
         const newOrder = await Order.create({
-            userId,             // Clerk ID of the buyer
+            userId,             
             items, 
             shippingFee: shippingFeeValue, 
             amount:finalAmount,         
-            address: addressId, // MongoDB _id of the selected address
-            status: 'Order Placed', // Default status
-            date: Date.now(),   // Current timestamp
+            address: addressId, 
+            status: 'Order Placed', 
+            date: Date.now(),  
         });
 
-        // 2. Find the user and clear their cart
-        // 🔑 NOTE: Using findOne({ clerkId: userId }) is CRITICAL here, 
-        // unlike the problematic findById(userId) in your other APIs.
+       
         const user = await User.findOne({ clerkId: userId });
         
         if (user) {
-            user.cartItems = {}; // Clear the cart
-            await user.save();   // Save the user document
+            user.cartItems = {}; 
+            await user.save();   
         }
 
         return NextResponse.json({ 

@@ -1,5 +1,3 @@
-// app/api/product/seller-list/route.js
-
 import { NextResponse } from 'next/server';
 import { getAuth } from '@clerk/nextjs/server';
 import Product from '@/models/product';

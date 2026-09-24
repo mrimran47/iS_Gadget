@@ -1,5 +1,3 @@
-// /app/api/address/get-address/route.js (Improved)
-
 import connectDB from "@/config/db";
 import Address from "@/models/address";
 import { getAuth } from "@clerk/nextjs/server";

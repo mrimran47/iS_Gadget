@@ -46,7 +46,7 @@ await connectDB();
  } catch (err) {
  return NextResponse.json(
 { success: false, message: err.message || 'Server error' },
-      { status: 500 }
-    );
-  }
+ { status: 500 }
+);
+}
 }
